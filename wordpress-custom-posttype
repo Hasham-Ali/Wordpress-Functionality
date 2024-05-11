@@ -1,0 +1,133 @@
+// ===== Create Shortcode posttype1 (owl slider) =====
+
+function create_posttype1() {
+    register_post_type( 'posttype1',
+        array(
+            'labels' => array(
+              'name' => __( 'Posttype1' ),
+              'singular_name' => __( 'Posttype1' )
+            ),
+           'public' => true,
+           'has_archive' => true,
+           'rewrite' => array('slug' => 'posttype1'),
+           'can_export'          => true,
+           'supports'            => array( 'title','editor','thumbnail','excerpt'),
+           'publicly_queryable'  => true,
+           'menu_icon' => 'dashicons-admin-site-alt'
+        )
+    );
+}
+add_action( 'init', 'create_posttype1' );
+
+// ===== Create Shortcode to Display posttype1 =====
+  
+function create_posttype1_slider(){    
+    //$pst_page = $atts['post_per_page'];  // perameter $atts   
+    $args = array(
+       "post_type" => "posttype1",
+       //"posts_per_page" =>$pst_page,
+       "posts_per_page" => -1,
+    );
+
+    $wp_query = new WP_Query($args);
+    if($wp_query->have_posts() ){ ?>
+        <div id="owl_slidr" class="owl-carousel owl-stage">
+            <?php  while($wp_query->have_posts()){
+                $wp_query->the_post(); ?>
+
+                    <div class="items">
+                        <div class="posttype1-box">
+
+                            <div class="posttype1-img">
+                                <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+                            </div>
+
+                            <div class="posttype1-title">
+                                <h3><?php echo get_the_title(); ?></h3>
+                            </div>
+
+                            <div class="posttype1-content">
+                                <h3><?php echo get_the_content(); ?></h3>
+                            </div>
+
+                            <div class="posttype1-content">
+                                <h3><?php echo get_the_excerpt(); ?></h3>
+                            </div>
+
+                        </div>
+                    </div>
+
+            <?php  } ?>
+        </div>
+    <?php }
+}
+
+add_shortcode("posttype1_slider_shortcode", "create_posttype1_slider"); 
+
+
+
+
+// ===== Create Shortcode posttype2 (grid) =====
+
+function create_posttype2() {
+    register_post_type( 'posttype2',
+    array(
+    'labels' => array(
+    'name' => __( 'Posttype2' ),
+    'singular_name' => __( 'Posttype2' ) ),
+    'public' => true,
+    'has_archive' => true,
+    'rewrite' => array('slug' => 'posttype2'),
+    'can_export'  => true,
+    'supports'  => array( 'title','editor','thumbnail' ),
+    'publicly_queryable' => true,
+    'menu_icon' => 'dashicons-admin-site-alt'
+    )
+    );
+    }
+
+    add_action( 'init', 'create_posttype2' );
+
+// ===== Create Shortcode to Display posttype2 =====
+
+    function create_posttype2_serv(){
+    //$pst_page = $atts['post_per_page'];   // perameter $atts
+    $args = array(
+    "post_type" => "posttype2",
+    //"posts_per_page" =>$pst_page,
+    "posts_per_page" => 3,
+    'order' => 'ASC'
+    );
+
+    $wp_query = new WP_Query($args);
+    if($wp_query->have_posts() ){ ?>
+    <div class="row">
+     <?php while($wp_query->have_posts()){
+     $wp_query->the_post(); ?>
+
+        <div class="col-lg-4">
+
+            <div class="posttype2_inoform">
+        
+                <div class="posttype2_profile">
+                    <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+                </div>
+            
+                <div class="posttype2_title">
+                    <h4><?php echo get_the_title(); ?></h4>
+                </div>
+                
+                <div class="posttype2_para">
+                    <p><?php echo get_the_content(); ?></p>
+                </div>
+        
+            </div>
+
+        </div>
+
+     <?php } ?>
+    </div>
+    <?php }
+    }
+    
+    add_shortcode("posttype2_shortcode", "create_posttype2_serv");
