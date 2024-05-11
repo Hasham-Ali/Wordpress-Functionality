@@ -1,0 +1,219 @@
+=========== wordpress mobile navbar with logo toggle close and btn v1 ==========
+
+<!-- header -->
+<a href="javascript:void(0);" id="clos__menu"><i class="fas fa-times"></i></a>
+
+// Footer
+jQuery('#clos__menu').click(function () {
+    jQuery("header#masthead #main-nav").removeClass('show');
+});
+
+jQuery(document).ready(function () {
+    windowsize = jQuery(window).width();
+    if (windowsize <= 1199) {
+        jQuery("#clos__menu").insertBefore('header#masthead #main-nav .navbar-nav');
+        jQuery(".head_social").insertAfter('body:not(.theme-preset-active) #masthead .navbar-nav > li:last-child > a');
+        jQuery('.navbar-brand').clone().appendTo('#main-nav');
+
+    }
+});
+
+/*----- CSS -----*/
+div#main-nav {
+    position: fixed;
+    left: -4px;
+    top: 0;
+    height: 100%;
+    padding: 40px 40px;
+    background: #fff;
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: 0.5s all ease-in-out;
+    width: 34%;
+    display: block !important;
+    /* flex-direction: column-reverse !important; */
+    /* justify-content: start !important; */
+    border-right: 8px solid #000;
+    overflow-y: scroll;
+}
+
+div#main-nav.show {
+    transform: none;
+}
+
+div#main-nav.collapse:not(.show) {
+    display: block !important;
+}
+
+div#main-nav .navbar-brand {
+    width: 100%;
+    margin: 0;
+    padding-bottom: 50px;
+    text-align: center;
+}
+
+a#clos__menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 0;
+    height: 40px;
+    width: 41px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 6px;
+}
+
+
+
+========== wordpress mobile navbar with logo toggle close and btn v2 ==========
+
+<!-- header -->
+<a href="javacript:void(0)" id="clos__menu">x</a>
+
+// Footer
+jQuery(document).ready(function () {
+    windowsize = jQuery(window).width();
+    if (windowsize <= 1199) {
+        jQuery("#clos__menu").insertBefore('header#masthead #main-nav .navbar-nav');
+        jQuery('.navbar-brand').clone().prependTo('#main-nav');
+        jQuery("#theme-btn").insertAfter('body:not(.theme-preset-active) #masthead .navbar-nav > li:last-child > a');
+
+    }
+
+    jQuery('#clos__menu').click(function () {
+        jQuery("header#masthead #main-nav").removeClass('show');
+    });
+});
+
+/*----- CSS -----*/
+div#main-nav {
+    position: fixed;
+    left: -4px;
+    top: 0;
+    height: 100%;
+    padding: 40px 40px;
+    background: #fff;
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: 0.5s all ease-in-out;
+    width: 34%;
+    display: block !important;
+    /* flex-direction: column-reverse !important; */
+    /* justify-content: start !important; */
+    border-right: 8px solid #000;
+    overflow-y: scroll;
+}
+
+div#main-nav.show {
+    transform: none;
+}
+
+div#main-nav.collapse:not(.show) {
+    display: block !important;
+}
+
+div#main-nav .navbar-brand {
+    width: 100%;
+    margin: 0;
+    padding-bottom: 50px;
+    text-align: center;
+}
+
+a#clos__menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 0;
+    height: 40px;
+    width: 41px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 6px;
+}
+
+
+
+========== wordpress mobile navbar with logo toggle close and btn v3 (Final) ==========
+
+<!-- header -->
+<a href="javacript:void(0)" id="clos__menu">x</a>
+
+// Footer
+jQuery(document).ready(function () {
+    windowsize = jQuery(window).width();
+    if (windowsize <= 1199) {
+        jQuery("#clos__menu").insertBefore('header#masthead #main-nav .navbar-nav');
+        jQuery('.navbar-brand').clone().prependTo('#main-nav');
+        jQuery(".right-bar").insertAfter('body:not(.theme-preset-active) #masthead .navbar-nav > li:last-child > a');
+
+    }
+
+    jQuery('#clos__menu').click(function () {
+        jQuery("header#masthead #main-nav").removeClass('show');
+    });
+});
+
+/*----- CSS -----*/
+div#main-nav {
+    position: fixed;
+    left: -4px;
+    top: 0;
+    height: 100%;
+    padding: 40px 40px;
+    background: #fff;
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: 0.5s all ease-in-out;
+    width: 34%;
+    display: block !important;
+    /* flex-direction: column-reverse !important; */
+    /* justify-content: start !important; */
+    border-right: 8px solid #000;
+    overflow-y: scroll;
+}
+
+div#main-nav.show {
+    transform: none;
+}
+
+div#main-nav.collapse:not(.show) {
+    display: block !important;
+}
+
+div#main-nav .navbar-brand {
+    width: 100%;
+    margin: 0;
+    padding-bottom: 50px;
+    text-align: center;
+}
+
+a#clos__menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 0;
+    height: 40px;
+    width: 41px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 6px;
+}
