@@ -1,0 +1,9 @@
+/*----- If we want to change navbar/header transperante then we apply this css for improve responsive -----*/
+
+.entry-content {
+    margin: 0px !important;
+}
+
+.site-content {
+    padding: 0px !important;
+}
