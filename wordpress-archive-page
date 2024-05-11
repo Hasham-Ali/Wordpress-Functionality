@@ -1,0 +1,61 @@
+=========== Archive page for custom posttype ===========
+
+<?php
+/**
+ * The template for displaying archive pages
+ *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WP_Bootstrap_Starter
+ */
+
+
+get_header(); ?>
+
+	<section id="primary" class="content-area col-sm-12 col-lg-12">
+		<div id="main" class="site-main" role="main">
+		    <div class="row">
+		        <?php  while($wp_query->have_posts()){
+		        $wp_query->the_post(); ?>
+		        <div class="col-lg-3 col-md-3 col-sm-12">
+		            <div class="testimonial-box">                   
+		                    <div class="testimonial-img">
+		                        <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+		                    </div>
+		                    <div class="testimonial-field">
+		                        <span><?php echo get_field('designation');?></span>
+		                    </div>
+		                    <div class="testimonial-content">
+		                        <div class="testimonial-rating">
+		                            <?php
+		                                for($i = 1; $i <= $stars; $i++){ ?>
+		                                    <i class="fas fa-star active"></i>
+		                                <?php }
+		                                for($x = 1; $x <= 5 - $stars; $x++){ ?>
+		                                    <i class="fas fa-star"></i>
+		                            <?php } ?>
+		                        </div>                   
+		                        <h2><?php echo get_the_title(); ?></h2>
+		                        <span><?php echo get_the_excerpt(); ?></span>
+		                        <p><?php echo get_the_content(); ?></p>
+		                    </div>
+		                </div>
+		            </div>
+		        <?php } ?>
+		    </div>
+		</div><!-- #main -->
+	</section><!-- #primary -->
+
+<?php
+get_footer();
+
+for archive bread h1=========
+<h1>
+<?php
+    if (is_post_type_archive('testimonials')) {
+        echo "Testimonials";
+    } else {
+        the_title();
+    }
+?>
+</h1>
