@@ -25,3 +25,16 @@
         </div>
    </div>
 <?php } ?>
+
+
+
+
+
+<h5><?php echo get_the_date();?>
+ <?php foreach($tags as $tag) : ?>
+<p><?php print_r($tag->name); ?></p>
+   <?php endforeach; ?></h5> 
+
+<?php echo date('d F', strtotime(get_the_date())); ?>
+
+<?php echo date('d M', strtotime(get_the_date())); ?>
