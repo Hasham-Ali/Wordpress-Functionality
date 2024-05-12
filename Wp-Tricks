@@ -28,6 +28,21 @@
 
 
 
+========== wordpress custom tabs for wp-builder =========
+
+jQuery('.srv_tab').on('click', function () {
+    jQuery(this).parent('.wpb_wrapper').find('.srv_tab.active').removeClass('active');
+    jQuery(this).addClass('active');
+    let init_text = (jQuery(this).attr('id'));
+    let nbr = init_text.substring(8);
+    // alert(nbr);
+    // let nbr = jQuery(this).data('tab-id');
+    let init_ctn = ('#srv_ctn_' + nbr);
+    jQuery('.srv_ctn').hide();
+    jQuery(init_ctn).show();
+});
+
+
 
 
 <h5><?php echo get_the_date();?>
