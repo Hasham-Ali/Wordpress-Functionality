@@ -1,0 +1,181 @@
+function get_products_cat_tabs ()
+{
+  $terms = get_categories(
+       array( 
+        'taxonomy' => 'product_cat',
+        'hide_empty' => false,
+        'parent' => 0,
+        'orderby' => 'name',
+        'order'  => 'DESC',
+        'hide_empty' => true
+       )
+    ); ?>
+
+    <div class="product_search_custom">
+      <div class="searchBox">
+        <div class="input-field">
+          <input type="text" name="search_product" class="form-control" placeholder="Search by name">
+        </div>
+        <div class="input-btn">
+          <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="submit" class="btn" name="submit" value="Search">
+        </div>
+      </div>
+      <div class="filter-btn">
+        <a href="javascript:;" class="btn-flt">
+          <img src="<?=get_site_url()?>/wp-content/themes/CustomTheme/images/filter.png" alt="No Image">
+        </a>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active show" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="true">All</a>
+      <?php foreach ($terms as $term) { 
+
+      ?>
+
+
+
+      <a class="nav-item nav-link" id="nav-<?=$term->slug ?>-tab" data-toggle="tab" href="#nav-<?=$term->slug ?>" role="tab" aria-controls="nav-<?=$term->name ?>" aria-selected="false">
+        <?php 
+
+        $thumbnail_id = get_woocommerce_term_meta($term->term_id, 'thumbnail_id', true );
+        $image = wp_get_attachment_url( $thumbnail_id );
+        if ( $image ) {
+          echo '<img src="' . $image . '" />';
+        }
+
+        ?>
+        <?=$term->name . '(' .$term->count . ')' ?></a>
+     
+     
+
+  <?php }
+  echo '</div></nav>'; ?>
+
+  <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+    <div class="tab-pane fade active show" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+      <ul class="custom-products">
+      <?php
+      // global $product;
+      // $_product = wc_get_product( $product_id );
+      $args = array(
+        "post_type" => "product",
+        "posts_per_page" => 12,
+      );
+
+      $wp_query = new WP_Query($args);
+      // echo "<pre>";
+      // print_r($wp_query);
+
+      // exit();
+
+      if($wp_query->have_posts() ){
+        while($wp_query->have_posts()){
+          $wp_query->the_post(); 
+          ?>
+            <li>
+              <div class="product-box">
+                <figure>
+                  <img src="<?php echo get_the_post_thumbnail_url();?>">
+                  <div class="tinv-wraper woocommerce tinv-wishlist tinvwl-after-add-to-cart tinvwl-loop-button-wrapper" data-tinvwl_product_id="<?=get_the_ID()?>">
+                    <div class="tinv-wishlist-clear"></div><a role="button" tabindex="0" aria-label="Add to Wishlist" class="tinvwl_add_to_wishlist_button tinvwl-icon-heart tinvwl-position-after tinvwl-loop" data-tinv-wl-list="[]" data-tinv-wl-product="<?=get_the_ID()?>" data-tinv-wl-productvariation="0" data-tinv-wl-productvariations="[0]" data-tinv-wl-producttype="simple" data-tinv-wl-action="addto"><span class="tinvwl_add_to_wishlist-text">Add to Wishlist</span></a><div class="tinv-wishlist-clear"></div>    
+                    <div class="tinvwl-tooltip">Add to Wishlist</div>
+                </div>
+                </figure>
+                <div class="prd-content">
+                  <h3><?php echo get_the_title();?></h3>
+                  <div class="custom-rtng">
+                  <?php 
+
+                    global $woocommerce, $product;
+                    $average = $product->get_average_rating();
+
+                    for($i = 1; $i <= $average; $i++){ ?>
+                        <i class="fas fa-star active"></i>
+                      <?php }
+                      for($x = 1; $x <= 5 - $average; $x++){ ?>
+                        <i class="fa-regular fa-star"></i>
+                    <?php }
+
+                    ?>
+                    </div>
+                  <p><?=get_woocommerce_currency_symbol() . get_post_meta( get_the_ID(), '_regular_price', true);?></p>
+                </div>
+                <a href="?add-to-cart=<?=get_the_ID()?>" data-quantity="1" class="button wp-element-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?=get_the_ID()?>" data-product_sku="" aria-label="Add “<?=get_the_title()?>” to your cart" rel="nofollow"><i class="fa-sharp fa-solid fa-arrow-right-long"></i></a>
+              </div>
+            </li>
+
+        <?php } ?>
+      <?php }
+
+      ?>
+    </ul>
+  </div>
+
+  <?php foreach ($terms as $term) { ?>
+  <?php 
+
+   $args = array(
+      "post_type" => "product",
+      "posts_per_page" => 12,
+      'tax_query' => array(
+        array(
+          'taxonomy' => 'product_cat',
+          'field'  => 'slug',
+          'terms'  => $term->slug,
+          'operator' => 'IN'
+        ),
+      )
+    );
+    
+
+   echo '<div class="tab-pane fade" id="nav-'.$term->slug.'" role="tabpanel" aria-labelledby="nav-'.$term->slug.'-tab"><ul class="custom-products">';
+
+    $wp_query = new WP_Query($args);
+    if($wp_query->have_posts() ){
+      while($wp_query->have_posts()){
+        $wp_query->the_post(); ?>
+          <li>
+            <div class="product-box">
+              <figure>
+                <img src="<?php echo get_the_post_thumbnail_url();?>">
+                <div class="tinv-wraper woocommerce tinv-wishlist tinvwl-after-add-to-cart tinvwl-loop-button-wrapper" data-tinvwl_product_id="<?=get_the_ID()?>">
+                  <div class="tinv-wishlist-clear"></div><a role="button" tabindex="0" aria-label="Add to Wishlist" class="tinvwl_add_to_wishlist_button tinvwl-icon-heart tinvwl-position-after tinvwl-loop" data-tinv-wl-list="[]" data-tinv-wl-product="<?=get_the_ID()?>" data-tinv-wl-productvariation="0" data-tinv-wl-productvariations="[0]" data-tinv-wl-producttype="simple" data-tinv-wl-action="addto"><span class="tinvwl_add_to_wishlist-text">Add to Wishlist</span></a><div class="tinv-wishlist-clear"></div>    
+                  <div class="tinvwl-tooltip">Add to Wishlist</div>
+              </div>
+              </figure>
+              <div class="prd-content">
+                <h3><?php echo get_the_title();?></h3>
+                <div class="custom-rtng">
+                <?php 
+
+                global $woocommerce, $product;
+                $average = $product->get_average_rating();
+
+                for($i = 1; $i <= $average; $i++){ ?>
+                    <i class="fas fa-star active"></i>
+                  <?php }
+                  for($x = 1; $x <= 5 - $average; $x++){ ?>
+                    <i class="fa-regular fa-star"></i>
+                <?php }
+
+                ?>
+                </div>
+                <p><?=get_woocommerce_currency_symbol() . get_post_meta( get_the_ID(), '_regular_price', true);?></p>
+              </div>
+              <a href="?add-to-cart=<?=get_the_ID()?>" data-quantity="1" class="button wp-element-button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?=get_the_ID()?>" data-product_sku="" aria-label="Add “<?=get_the_title()?>” to your cart" rel="nofollow"><i class="fa-sharp fa-solid fa-arrow-right-long"></i></a>
+            </div>
+          </li>
+
+      <?php } ?>
+    <?php }
+    echo '</ul></div>';
+   
+  } 
+
+  echo '</div>';  
+}
+
+add_shortcode('get_product_cat','get_products_cat_tabs');
