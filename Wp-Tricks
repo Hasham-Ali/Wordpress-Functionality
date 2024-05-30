@@ -10,6 +10,19 @@
 
 
 
+
+// include owl-carousel css file in theme assets/css.
+// load bootstrap css => past code in funtion.php inside load bootstrap css funtion
+wp_enqueue_style( 'owl-carousel-css', get_template_directory_uri() . '/inc/assets/css/owl.carousel.min.css' );
+
+// include owl-carousel js file in theme assets/js.
+// wp_enqueue_script('jquery'); after => past code in funtion.php inside load bootstrap css funtion
+wp_enqueue_script('owl_carousel-js', get_template_directory_uri() . '/inc/assets/js/owl.carousel.min.js', array(), '', true );
+
+
+
+
+
 <!----- Wp breadcrumbs funtion ----->
 
 <?php if(!is_front_page()){ ?>
