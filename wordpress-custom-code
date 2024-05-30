@@ -1,0 +1,57 @@
+///  wordpress custom theme  ///
+
+echo get_template_directory_uri();  /// path located
+
+get_header();
+
+get_footer();
+
+
+
+
+
+//For navbar menus
+
+register_nav-menus();
+!--
+** functions.php **
+== register_nav-menus(
+         array('primary-menu'=>'Top Menu');
+);
+
+wp_nav_menu();
+!--
+** header.php **
+== wp_nav_menu(
+         array("theme_location"=>"primary-menu", "menu"=>"wp-nav");
+);
+
+
+
+
+//register widgets in functions.php file
+
+register_sidebar(
+    array(
+        'name' => "Navbar Location",
+        'id' => 'navbar-1'
+    )
+    );
+
+//call widgets
+<?php dynamic_sidebar('navbar-1');?>
+
+
+
+register_sidebar (
+    array(
+        'name' => "Footer Location",
+        'id' => 'footer-1'
+    )
+);
+
+//call widgets
+<?php dynamic_sidebar('footer-1'); ?>
+
+//using acf plugin for dynamic contant....
+<?php echo get_field(//field-name//);?>
