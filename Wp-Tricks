@@ -55,7 +55,8 @@ jQuery('.srv_tab').on('click', function () {
     jQuery(init_ctn).show();
 });
 
-
+// wp btn link
+<a class="vc_general" href="<?php echo home_url();?>/book-now/">Book Now</a>
 
 
 <h5><?php echo get_the_date();?>
