@@ -59,6 +59,10 @@ jQuery('.srv_tab').on('click', function () {
 <a class="vc_general" href="<?php echo home_url();?>/book-now/">Book Now</a>
 
 
+//using acf plugin for dynamic contant....
+<?php echo get_field(//field-name//);?>
+
+
 <h5><?php echo get_the_date();?>
  <?php foreach($tags as $tag) : ?>
 <p><?php print_r($tag->name); ?></p>
