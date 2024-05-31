@@ -71,3 +71,43 @@ jQuery('.srv_tab').on('click', function () {
 <?php echo date('d F', strtotime(get_the_date())); ?>
 
 <?php echo date('d M', strtotime(get_the_date())); ?>
+
+
+add product category class on body single page////////////////////////
+
+add_action( 'woocommerce_after_single_product_summary', 'woo_btm_info' );
+function woo_btm_info() {
+ global $product;
+?>
+
+
+	<div class="section-class">
+		<?php the_content(); ?>
+	</div>
+
+
+<?php
+}
+add_filter('body_class', 'add_category_name_to_single');
+
+
+function add_category_name_to_single($classes) {
+    if (is_product()) {
+        global $post;
+
+
+        
+        if (is_a($post, 'WP_Post')) {
+            
+            $product_categories = wc_get_product_terms($post->ID, 'product_cat', array('fields' => 'names'));
+
+
+            
+            foreach ($product_categories as $category) {
+                $classes[] = sanitize_html_class($category);
+            }
+        }
+    }
+return $classes;
+}
+
