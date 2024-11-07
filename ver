@@ -1,0 +1,78 @@
+/***************HOME PAGA PER PRODUCTS VARIATION LANE WALA FUNCTION HA *************/
+
+
+Display variation dropdown after title and price, before Add to Cart button on the shop page
+add_action( 'woocommerce_after_shop_loop_item_title', 'display_variation_dropdown_on_shop_page', 15 );
+
+function display_variation_dropdown_on_shop_page() {
+    global $product;
+
+    if ( $product->is_type( 'variable' ) ) {
+        // Get the available variations
+        $available_variations = $product->get_available_variations();
+        $attributes = $product->get_variation_attributes();
+        $default_attributes = $product->get_default_attributes();
+
+        echo '<form class="variations_form" method="post">';
+        echo '<table class="variations" cellspacing="0">';
+        
+        foreach ( $attributes as $attribute_name => $options ) {
+            // Only show Color attribute dropdown
+            if ( strpos( $attribute_name, 'pa_color' ) !== false ) { // 'pa_color' is the slug for the color attribute
+                $selected = isset( $default_attributes[$attribute_name] ) ? $default_attributes[$attribute_name] : '';
+                echo '<tr>';
+//                 echo '<td class="label"><label for="' . esc_attr( $attribute_name ) . '">' . wc_attribute_label( $attribute_name ) . '</label></td>';
+                echo '<td class="value">';
+                wc_dropdown_variation_attribute_options( array(
+                    'options' => $options,
+                    'attribute' => $attribute_name,
+                    'product' => $product,
+                    'selected' => $selected
+                ) );
+                echo '</td>';
+                echo '</tr>';
+            }
+        }
+
+        echo '</table>';
+        echo '<div class="single_variation_wrap" style="display:none;">';
+        echo '<div class="single_variation"></div>';
+        echo '</div>';
+        echo '</form>';
+    }
+}
+
+/*********END *******/
+
+
+/***************HOME PAGA PER PRODUCTS VARIATION LANE WALA Footer.php ma Rakhte hn *************/
+
+
+<script>
+jQuery(document).ready(function($) {
+    // Check if we are NOT on a single product page
+    if (!$('body').hasClass('single-product')) {
+        $('.product').each(function() {
+            var productTitle = $(this).find('.woocommerce-loop-product__title');
+            var productPrice = $(this).find('.price');
+
+            if (productTitle.length && productPrice.length) {
+                productTitle.add(productPrice).wrapAll('<div class="product-title-price-wrapper"></div>');
+            }
+        });
+
+        $('.product').each(function() {
+            var productVariations = $(this).find('.variations_form');
+            var starRating = $(this).find('.star-rating');
+
+            if (productVariations.length || starRating.length) {
+                productVariations.add(starRating).wrapAll('<div class="product-variation-rating-wrapper"></div>');
+            }
+        });
+    }
+});
+
+
+</script>	
+
+/*********END*****************/
