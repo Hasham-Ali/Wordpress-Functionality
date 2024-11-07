@@ -1,0 +1,177 @@
+simple grid post type call//////////////////
+
+
+function create_customblogs() {
+register_post_type( 'customblogs',
+array(
+'labels' => array(
+'name' => __( 'CustomBlogs' ),
+'singular_name' => __( 'CustomBlogs' ) ),
+'public' => true,
+'has_archive' => true,
+'rewrite' => array('slug' => 'customblogs'),
+'can_export'  => true,
+'supports'  => array( 'title','editor','thumbnail','excerpt'),
+'publicly_queryable' => true,
+'menu_icon' => 'dashicons-admin-site-alt'
+)
+);
+}
+add_action( 'init', 'create_customblogs' );
+function create_customblogs_carousel(){
+  $args = array(
+    "post_type" => "customblogs",
+    "posts_per_page" => 3,
+    'order' => 'ASC'
+  );
+  $wp_query = new WP_Query($args);
+  if($wp_query->have_posts() ){ ?>
+  <div class="row">
+   <?php 
+   $post_index = 1; // Initialize post index
+   while($wp_query->have_posts()){
+     $wp_query->the_post();
+     if ($post_index === 1) {?> 
+
+      <div class="col-lg-6 col-md-6 col-12">
+      <div class="customblogs_inoform">
+      <div class="customblogs_profile">
+        <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+      </div>
+      <div class="customblogs-data">
+        <h4><?php echo get_the_title(); ?></h4>
+        <p><?php echo get_the_excerpt(); ?></p>
+      </div>
+      </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-12">
+     <?php }
+     else{?>
+     <div class="col-lg-12 col-md-12 col-12">
+      <div class="customblogs_inoform1">
+      <div class="customblogs_profile">
+        <img src="<?php echo get_the_post_thumbnail_url(); ?>">
+      </div>
+      <div class="customblogs-data">
+        <h4><?php echo get_the_title(); ?></h4>
+        <p><?php wp_trim_words( get_the_excerpt(), 10, '...' ); ?></p>
+      </div>
+      </div>
+      </div>
+    <?php }
+   ?>   
+   <?php 
+   $post_index++; // Increment post index
+   }
+   ?>
+  <?php }
+}
+add_shortcode("customblogs_carousel", "create_customblogs_carousel");
+
+
+
+recently post function/////////////
+
+function display_recently_updated_post_types_shortcode() {
+    $post_types = array(
+      'customblogs', // Replace 'custom_type_1' with your first custom post type name
+      'customblogs1',
+      'customblogs2', 
+    );
+
+    $recently_updated_post_types = array();
+    foreach ($post_types as $post_type) {
+        $args = array(
+            'post_type' => $post_type,
+            'posts_per_page' => 6,
+            'orderby' => 'date',
+            'order' => 'DESC'
+        );
+
+        $query = new WP_Query($args);
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $recently_updated_post_types[$post_type] = array(
+                    'title' => get_the_title(),
+                    'post_type' => $post_type,
+                    'url' => get_permalink()
+                );
+            }
+        }
+        wp_reset_postdata();
+    }
+
+    // Build the output string
+    $anim_fade_mainadd = 1;
+    $output = '<div class="anim_fade_main">';
+    foreach ($recently_updated_post_types as $key => $value) {
+        $output .= '<div class="anim_fade_Inner anim_fade_Inner'.$anim_fade_mainadd.'"><a href="' . $value[''] . '">' . $value['title'] . '</a></div>';
+        $anim_fade_mainadd++;
+    }
+    $output .= '</div>';
+
+    return $output;
+}
+add_shortcode('recently_updated_post_types', 'display_recently_updated_post_types_shortcode');
+
+
+recently css////////////
+
+.anim_fade_main {
+  position: relative;
+}
+
+.anim_fade_Inner {
+  position: absolute;
+  opacity: 0;
+}
+.anim_fade_Inner{
+  transition: all 1s ease-in-out;
+}
+
+recently js//////////////
+
+<script>
+  console.log('hello');
+let animFadeMain = document.querySelector(".anim_fade_main")
+let animFadeinner = document.querySelectorAll(".anim_fade_Inner")
+
+let animFadejava = () =>{
+  setTimeout(() => {
+  animFadeinner[0].style.opacity = "1"
+  animFadeinner[1].style.opacity = "0"
+  animFadeinner[2].style.opacity = "0"
+  animFadeinner[0].style.transform = "translateX(20px)"
+  animFadeinner[1].style.transform = "translateX(0)"
+  animFadeinner[2].style.transform = "translateX(30px)"
+  console.log('1');
+  
+  }, 3000);
+  setTimeout(() => {
+  animFadeinner[0].style.opacity = "0"
+  animFadeinner[1].style.opacity = "1"
+  animFadeinner[2].style.opacity = "0"
+  animFadeinner[0].style.transform = "translateX(2px0)"
+  animFadeinner[1].style.transform = "translateX(20px)"
+  animFadeinner[2].style.transform = "translateX(0)"
+  console.log('2');
+  
+  }, 6000);
+  setTimeout(() => {
+  animFadeinner[0].style.opacity = "0"
+  animFadeinner[1].style.opacity = "0"
+  animFadeinner[2].style.opacity = "1"
+  animFadeinner[0].style.transform = "translateX(0)"
+  animFadeinner[1].style.transform = "translateX(20px)"
+  animFadeinner[2].style.transform = "translateX(20px)"
+  console.log('3');
+  
+  }, 9000);
+}
+animFadejava()
+  setInterval(() => {
+    animFadejava()
+  }, 9000);
+
+</script>
