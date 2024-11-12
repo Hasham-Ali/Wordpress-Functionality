@@ -1,6 +1,5 @@
 /***************HOME PAGA PER PRODUCTS VARIATION LANE WALA FUNCTION HA *************/
 
-
 Display variation dropdown after title and price, before Add to Cart button on the shop page
 add_action( 'woocommerce_after_shop_loop_item_title', 'display_variation_dropdown_on_shop_page', 15 );
 
@@ -41,13 +40,9 @@ function display_variation_dropdown_on_shop_page() {
         echo '</form>';
     }
 }
-
 /*********END *******/
 
-
 /***************HOME PAGA PER PRODUCTS VARIATION LANE WALA Footer.php ma Rakhte hn *************/
-
-
 <script>
 jQuery(document).ready(function($) {
     // Check if we are NOT on a single product page
@@ -71,8 +66,5 @@ jQuery(document).ready(function($) {
         });
     }
 });
-
-
 </script>	
-
 /*********END*****************/
