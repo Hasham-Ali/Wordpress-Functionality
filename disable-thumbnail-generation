@@ -1,0 +1,22 @@
+1. Disable Thumbnail Generation via WordPress Settings
+2. Go to WordPress Dashboard → Settings → Media.
+3. Set the following sizes to 0:
+  .Thumbnail size: Width = 0, Height = 0
+  .Medium size: Width = 0, Height = 0
+  .Large size: Width = 0, Height = 0
+1. Click Save Changes.
+
+
+2. Use a Code Snippet to Disable Thumbnail Generation
+function disable_image_sizes($sizes) { 
+ unset($sizes['thumbnail']); 
+ unset($sizes['medium']); 
+ unset($sizes['large']); 
+ unset($sizes['medium_large']); 
+ return $sizes; 
+} 
+
+add_filter('intermediate_image_sizes_advanced', 'disable_image_sizes');
+
+3. Disable Thumbnails for Specific Uploads
+add_filter('intermediate_image_sizes', '__return_empty_array'); 
